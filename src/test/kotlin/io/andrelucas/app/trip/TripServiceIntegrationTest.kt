@@ -6,6 +6,7 @@ import io.andrelucas.app.TripService
 import io.andrelucas.business.trip.TripRepository
 import io.andrelucas.repository.trip.TripInMemoryRepository
 import kotlinx.coroutines.test.runTest
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -29,6 +30,7 @@ class TripServiceIntegrationTest {
         val tripRequest = TripRequest(
             title = "My trip to the moon",
             about = "I will go to the moon",
+            destination = "Moon",
             departure = "2019-01-01",
             returns = "2019-01-10",
             localities = listOf(
@@ -51,8 +53,9 @@ class TripServiceIntegrationTest {
         assertNotNull(trip.id)
         assertEquals(tripRequest.title, trip.title)
         assertEquals(tripRequest.about, trip.about)
-        assertEquals(tripRequest.departure, trip.departure)
-        assertEquals(tripRequest.returns, trip.returns)
+        assertEquals(tripRequest.destination, trip.destination)
+        assertEquals(tripRequest.departure, trip.departure.format(DateTimeFormatter.ISO_LOCAL_DATE))
+        assertEquals(tripRequest.returns, trip.returns.format(DateTimeFormatter.ISO_LOCAL_DATE))
         assertEquals(tripRequest.localities.size, trip.localities.size)
         assertEquals(tripRequest.accommodations.size, trip.accommodations.size)
         assertEquals(tripRequest.needsVisa, trip.needsVisa)

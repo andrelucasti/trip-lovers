@@ -9,8 +9,8 @@ data class Accommodation(val id: UUID,
                          val longitude: Double,
                          val address : String,
                          val estPrice: Int,
-                         val servicesOffering: List<String>,
-                         val tripId: String) {
+                         val nightsAmount: Int,
+                         val servicesOffering: List<String>) {
     companion object {
         fun create(name: String,
                    accommodationType: AccommodationType,
@@ -18,10 +18,9 @@ data class Accommodation(val id: UUID,
                    longitude: Double,
                    address : String,
                    estPrice: Int,
-                   servicesOffering: List<String>,
-                   tripId: String): Accommodation {
+                   servicesOffering: List<String>): Accommodation {
 
-            return Accommodation(id = UUID.randomUUID(), name, accommodationType, latitude, longitude, address, estPrice, servicesOffering, tripId)
+            return Accommodation(id = UUID.randomUUID(), name, accommodationType, latitude, longitude, address, estPrice, 0, servicesOffering)
         }
     }
 }
