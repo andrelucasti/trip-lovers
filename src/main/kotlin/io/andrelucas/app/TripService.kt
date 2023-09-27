@@ -1,10 +1,14 @@
 package io.andrelucas.app
 
+import io.andrelucas.business.coordinates.Coordinates
 import io.andrelucas.business.trip.*
+import io.andrelucas.business.trip.Currency
 import java.time.LocalDate
+import java.util.*
 
-class TripService(private val tripRepository: TripRepository) {
-    suspend fun create(tripRequest: TripRequest) {
+class TripService(private val tripRepository: TripRepository,
+                  private val tripDao: TripDao) {
+    suspend fun create(tripRequest: TripRequest) =
         Trip.create(tripRequest.title,
             tripRequest.destination,
             tripRequest.about,
@@ -17,17 +21,19 @@ class TripService(private val tripRepository: TripRepository) {
             .let {
                 tripRepository.save(it)
             }
-    }
+
+    suspend fun findAllFutureTrips(currentDate: LocalDate, userId: UUID) =
+        tripDao.findAllFutureTrips(currentDate, userId).sortedByDescending { it.departure }
+
 
     private fun createLocalities(localities: List<LocalityRequest>) =
         localities.map {
             Locality.create(
                 it.name,
                 LocalityType.valueOf(it.type),
-                it.latitude,
-                it.longitude,
+                Coordinates(it.latitude, it.longitude),
                 "",
-                0
+                Price(0, Currency.USD)
             )
         }
 
@@ -36,10 +42,9 @@ class TripService(private val tripRepository: TripRepository) {
             Accommodation.create(
                 it.name,
                 AccommodationType.valueOf(it.type),
-                it.latitude,
-                it.longitude,
+                Coordinates(it.latitude, it.longitude),
                 "",
-                0,
+                Price(0, Currency.USD),
                 it.servicesOffering
             )
         }

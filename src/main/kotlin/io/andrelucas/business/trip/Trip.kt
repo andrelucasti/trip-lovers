@@ -12,7 +12,7 @@ data class Trip(val id: UUID,
                 val localities: List<Locality>,
                 val accommodations: List<Accommodation>,
                 val needsVisa: Boolean,
-                val estTotalPrice: Int,
+                val estTotalPrice: Price,
                 val userId: UUID) {
 
     companion object {
@@ -26,8 +26,10 @@ data class Trip(val id: UUID,
                    needsVisa: Boolean,
                    userId: UUID): Trip {
 
-            val estTotalPrice =  localities.sumOf { it.estPrice }.plus(accommodations.sumOf { it.estPrice })
-            return Trip(id = UUID.randomUUID(), title, destination, about, departure, returns, localities, accommodations, needsVisa, estTotalPrice, userId)
+            if (localities.isEmpty() && accommodations.isEmpty()) throw IllegalArgumentException("Should not create a trip without localities and accommodations")
+
+            val estTotalPrice =  localities.sumOf { it.estPrice.valueInDollarInCents() }.plus(accommodations.sumOf { it.estPrice.valueInDollarInCents() })
+            return Trip(id = UUID.randomUUID(), title, destination, about, departure, returns, localities, accommodations, needsVisa, Price(estTotalPrice, Currency.USD), userId)
         }
     }
 }

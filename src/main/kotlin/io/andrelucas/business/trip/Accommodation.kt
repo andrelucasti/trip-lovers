@@ -1,26 +1,25 @@
 package io.andrelucas.business.trip
 
+import io.andrelucas.business.coordinates.Coordinates
 import java.util.UUID
 
 data class Accommodation(val id: UUID,
                          val name: String,
                          val accommodationType: AccommodationType,
-                         val latitude: Double,
-                         val longitude: Double,
+                         val coordinates: Coordinates,
                          val address : String,
-                         val estPrice: Int,
+                         val estPrice: Price,
                          val nightsAmount: Int,
                          val servicesOffering: List<String>) {
     companion object {
         fun create(name: String,
                    accommodationType: AccommodationType,
-                   latitude: Double,
-                   longitude: Double,
+                   coordinates: Coordinates,
                    address : String,
-                   estPrice: Int,
+                   estPrice: Price,
                    servicesOffering: List<String>): Accommodation {
 
-            return Accommodation(id = UUID.randomUUID(), name, accommodationType, latitude, longitude, address, estPrice, 0, servicesOffering)
+            return Accommodation(id = UUID.randomUUID(), name, accommodationType, coordinates, address, estPrice, 0, servicesOffering)
         }
     }
 }
