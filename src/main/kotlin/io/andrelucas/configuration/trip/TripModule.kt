@@ -1,6 +1,6 @@
 package io.andrelucas.configuration.trip
 
-import io.andrelucas.app.TripService
+import io.andrelucas.app.trip.TripService
 import io.andrelucas.app.trip.createTrip
 import io.andrelucas.business.trip.TripRepository
 import io.andrelucas.repository.trip.TripDaoInMemory

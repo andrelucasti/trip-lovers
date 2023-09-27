@@ -1,5 +1,7 @@
 package io.andrelucas.business.trip
 
+import io.andrelucas.business.Currency
+import io.andrelucas.business.Price
 import java.time.LocalDate
 import java.util.UUID
 

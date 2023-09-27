@@ -1,4 +1,4 @@
-package io.andrelucas.app
+package io.andrelucas.app.trip
 
 data class AccommodationRequest(val name: String,
                                 val type: String,

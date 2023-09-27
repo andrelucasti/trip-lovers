@@ -1,4 +1,4 @@
-package io.andrelucas.business.coordinates
+package io.andrelucas.business
 
 data class Coordinates(val latitude: Double, val longitude: Double) {
 }

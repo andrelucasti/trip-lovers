@@ -1,4 +1,4 @@
-package io.andrelucas.business.trip
+package io.andrelucas.business
 
 enum class Currency {
     BRL, USD, EUR, GBP

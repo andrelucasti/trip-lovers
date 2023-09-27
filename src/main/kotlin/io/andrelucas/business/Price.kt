@@ -1,4 +1,6 @@
-package io.andrelucas.business.trip
+package io.andrelucas.business
+
+import io.andrelucas.business.Currency
 
 data class Price(private val valueInCents: Int, private val currency: Currency) {
 

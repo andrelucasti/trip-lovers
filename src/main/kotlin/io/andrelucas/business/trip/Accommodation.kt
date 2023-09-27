@@ -1,6 +1,7 @@
 package io.andrelucas.business.trip
 
-import io.andrelucas.business.coordinates.Coordinates
+import io.andrelucas.business.Coordinates
+import io.andrelucas.business.Price
 import java.util.UUID
 
 data class Accommodation(val id: UUID,

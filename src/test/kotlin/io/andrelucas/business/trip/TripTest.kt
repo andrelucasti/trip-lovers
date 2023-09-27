@@ -1,6 +1,8 @@
 package io.andrelucas.business.trip
 
-import io.andrelucas.business.coordinates.Coordinates
+import io.andrelucas.business.Coordinates
+import io.andrelucas.business.Currency
+import io.andrelucas.business.Price
 import java.time.LocalDate
 import java.util.*
 import kotlin.test.Test
@@ -25,7 +27,8 @@ class TripTest {
     fun shouldReturnTheSumOfTripEstimatedPriceWhenIsCreatedWithOnlyLocalities() {
         val nataFactory =
             Locality.create("Fabrica de Nata", LocalityType.TOURIST_SPOT,
-                Coordinates(0.0, 0.0), "address 1", Price(150, Currency.USD))
+                Coordinates(0.0, 0.0), "address 1", Price(150, Currency.USD)
+            )
 
         val trip1 = Trip.create(
             "My trip",
@@ -39,9 +42,11 @@ class TripTest {
         assertEquals(150, trip1.estTotalPrice.valueInDollarInCents())
 
         val brenanCastel = Locality.create("Castelo de Brenan", LocalityType.TOURIST_SPOT,
-                Coordinates(0.0, 0.0), "address 1", Price(100, Currency.USD))
+                Coordinates(0.0, 0.0), "address 1", Price(100, Currency.USD)
+        )
         val chinaBox = Locality.create("China Box", LocalityType.RESTAURANT,
-                Coordinates(0.0, 0.0), "address 1", Price(250, Currency.USD))
+                Coordinates(0.0, 0.0), "address 1", Price(250, Currency.USD)
+        )
 
         val trip2 = Trip.create(
             "My trip",

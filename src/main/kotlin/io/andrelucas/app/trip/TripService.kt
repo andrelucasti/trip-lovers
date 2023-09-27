@@ -1,8 +1,9 @@
-package io.andrelucas.app
+package io.andrelucas.app.trip
 
-import io.andrelucas.business.coordinates.Coordinates
+import io.andrelucas.business.Coordinates
 import io.andrelucas.business.trip.*
-import io.andrelucas.business.trip.Currency
+import io.andrelucas.business.Currency
+import io.andrelucas.business.Price
 import java.time.LocalDate
 import java.util.*
 

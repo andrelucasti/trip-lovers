@@ -1,6 +1,7 @@
 package io.andrelucas.business.trip
 
-import io.andrelucas.business.coordinates.Coordinates
+import io.andrelucas.business.Coordinates
+import io.andrelucas.business.Price
 import java.util.UUID
 
 data class Locality(val id: UUID,
@@ -8,13 +9,15 @@ data class Locality(val id: UUID,
                     val localityType: LocalityType,
                     val coordinates: Coordinates,
                     val address : String,
-                    val estPrice: Price) {
+                    val estPrice: Price
+) {
     companion object {
         fun create(name: String,
                    localityType: LocalityType,
                    coordinates: Coordinates,
                    address : String,
-                   estPrice: Price): Locality {
+                   estPrice: Price
+        ): Locality {
 
             return Locality(id = UUID.randomUUID(), name, localityType, coordinates, address, estPrice)
         }

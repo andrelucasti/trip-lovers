@@ -1,4 +1,4 @@
-package io.andrelucas.app
+package io.andrelucas.app.trip
 
 import java.util.*
 
