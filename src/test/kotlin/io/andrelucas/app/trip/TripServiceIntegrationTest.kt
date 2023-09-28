@@ -40,12 +40,14 @@ class TripServiceIntegrationTest {
                     name = "Moon",
                     latitude = 0.0,
                     longitude = 1.0,
-                    type = "RESTAURANT"
+                    type = "RESTAURANT",
+                    estimatePriceInCents = 150
                 ),
             ),
             accommodations = emptyList(),
             needsVisa = false,
-            userId = UUID.randomUUID()
+            adults = 1,
+            userId = UUID.randomUUID().toString()
         )
         // When
         tripService.create(tripRequest = tripRequest)
@@ -61,7 +63,7 @@ class TripServiceIntegrationTest {
         assertEquals(tripRequest.localities.size, trip.localities.size)
         assertEquals(tripRequest.accommodations.size, trip.accommodations.size)
         assertEquals(tripRequest.needsVisa, trip.needsVisa)
-        assertEquals(tripRequest.userId, trip.userId)
+        assertEquals(UUID.fromString(tripRequest.userId), trip.userId)
         assertNotNull(trip.estTotalPrice)
 
         assertNotNull(trip.localities[0].id)
@@ -75,7 +77,7 @@ class TripServiceIntegrationTest {
     @Test
     fun shouldReturnOnlyFutureTripsWhenTheDepartureIsAfterCurrentDate() = runTest  {
         val currentDate = LocalDate.parse("2023-01-01")
-        val userId = UUID.randomUUID()
+        val userId = UUID.randomUUID().toString()
 
         val tripRequest1 = TripRequest(
             title = "My trip to the moon",
@@ -88,11 +90,13 @@ class TripServiceIntegrationTest {
                     name = "Moon",
                     latitude = 0.0,
                     longitude = 1.0,
-                    type = "TOURIST_SPOT"
+                    type = "TOURIST_SPOT",
+                    estimatePriceInCents = 150
                 ),
             ),
             accommodations = emptyList(),
             needsVisa = false,
+            adults = 1,
             userId = userId
         )
         tripService.create(tripRequest1)
@@ -108,11 +112,14 @@ class TripServiceIntegrationTest {
                     name = "Moon",
                     latitude = 0.0,
                     longitude = 1.0,
-                    type = "TOURIST_SPOT"
+                    type = "TOURIST_SPOT",
+
+                    estimatePriceInCents = 150
                 ),
             ),
             accommodations = emptyList(),
             needsVisa = false,
+            adults = 1,
             userId = userId
         )
         tripService.create(tripRequest2)
@@ -128,16 +135,18 @@ class TripServiceIntegrationTest {
                     name = "Moon",
                     latitude = 0.0,
                     longitude = 1.0,
-                    type = "TOURIST_SPOT"
+                    type = "TOURIST_SPOT",
+                    estimatePriceInCents = 150
                 ),
             ),
             accommodations = emptyList(),
             needsVisa = false,
+            adults = 1,
             userId = userId
         )
         tripService.create(tripRequest3)
 
-        val futureTrips = tripService.findAllFutureTrips(currentDate, userId)
+        val futureTrips = tripService.findAllFutureTrips(currentDate, UUID.fromString(userId))
 
         assertEquals(2, futureTrips.size)
         assertEquals(tripRequest2.title, futureTrips[0].title)

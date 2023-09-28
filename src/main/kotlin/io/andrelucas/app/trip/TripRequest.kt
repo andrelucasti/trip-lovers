@@ -1,7 +1,8 @@
 package io.andrelucas.app.trip
 
-import java.util.*
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TripRequest(val title: String,
                        val about: String,
                        val destination: String,
@@ -10,4 +11,5 @@ data class TripRequest(val title: String,
                        val localities: List<LocalityRequest>,
                        val accommodations: List<AccommodationRequest>,
                        val needsVisa: Boolean,
-                       val userId: UUID)
+                       val adults: Int,
+                       val userId: String)

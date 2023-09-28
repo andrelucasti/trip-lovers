@@ -18,7 +18,8 @@ class TripService(private val tripRepository: TripRepository,
             createLocalities(tripRequest.localities),
             createAccommodations(tripRequest.accommodations),
             tripRequest.needsVisa,
-            tripRequest.userId)
+            tripRequest.adults,
+            UUID.fromString(tripRequest.userId))
             .let {
                 tripRepository.save(it)
             }

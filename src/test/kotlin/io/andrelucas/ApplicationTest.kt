@@ -1,5 +1,6 @@
 package io.andrelucas
 
+import io.andrelucas.configuration.trip.tripModule
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -15,7 +16,7 @@ class ApplicationTest {
     @Test
     fun testRoot() = testApplication {
         application {
-            //configureRouting()
+            tripModule()
         }
         client.get("/").apply {
             assertEquals(HttpStatusCode.OK, status)

@@ -19,14 +19,15 @@ class TripTest {
             "My description",
             LocalDate.parse("2019-01-01"),
             LocalDate.parse("2019-01-10"),
-            emptyList(), emptyList(), false, UUID.randomUUID())
+            emptyList(), emptyList(), false, 1, UUID.randomUUID())
         }
     }
 
     @Test
     fun shouldReturnTheSumOfTripEstimatedPriceWhenIsCreatedWithOnlyLocalities() {
         val nataFactory =
-            Locality.create("Fabrica de Nata", LocalityType.TOURIST_SPOT,
+            Locality.create(
+                "Fabrica de Nata", LocalityType.TOURIST_SPOT,
                 Coordinates(0.0, 0.0), "address 1", Price(150, Currency.USD)
             )
 
@@ -36,16 +37,18 @@ class TripTest {
             "My description",
             LocalDate.parse("2019-01-01"),
             LocalDate.parse("2019-01-10"),
-            listOf(nataFactory), emptyList(), false, UUID.randomUUID()
+            listOf(nataFactory), emptyList(), false, 1, UUID.randomUUID()
         )
 
         assertEquals(150, trip1.estTotalPrice.valueInDollarInCents())
 
-        val brenanCastel = Locality.create("Castelo de Brenan", LocalityType.TOURIST_SPOT,
-                Coordinates(0.0, 0.0), "address 1", Price(100, Currency.USD)
+        val brenanCastel = Locality.create(
+            "Castelo de Brenan", LocalityType.TOURIST_SPOT,
+            Coordinates(0.0, 0.0), "address 1", Price(100, Currency.USD)
         )
-        val chinaBox = Locality.create("China Box", LocalityType.RESTAURANT,
-                Coordinates(0.0, 0.0), "address 1", Price(250, Currency.USD)
+        val chinaBox = Locality.create(
+            "China Box", LocalityType.RESTAURANT,
+            Coordinates(0.0, 0.0), "address 1", Price(250, Currency.USD)
         )
 
         val trip2 = Trip.create(
@@ -54,7 +57,7 @@ class TripTest {
             "My description",
             LocalDate.parse("2019-01-01"),
             LocalDate.parse("2019-01-10"),
-            listOf(brenanCastel, chinaBox), emptyList(), false, UUID.randomUUID()
+            listOf(brenanCastel, chinaBox), emptyList(), false, 1, UUID.randomUUID()
         )
 
         assertEquals(350, trip2.estTotalPrice.valueInDollarInCents())
@@ -70,7 +73,7 @@ class TripTest {
             "My description",
             LocalDate.parse("2019-01-01"),
             LocalDate.parse("2019-01-10"),
-            emptyList(), listOf(ibisHotel), false, UUID.randomUUID()
+            emptyList(), listOf(ibisHotel), false, 1, UUID.randomUUID()
         )
 
         assertEquals(10000, trip1.estTotalPrice.valueInDollarInCents())
@@ -84,7 +87,7 @@ class TripTest {
             "My description",
             LocalDate.parse("2019-01-01"),
             LocalDate.parse("2019-01-10"),
-            emptyList(), listOf(hostel1, hostel2), false, UUID.randomUUID()
+            emptyList(), listOf(hostel1, hostel2), false, 1, UUID.randomUUID()
         )
 
         assertEquals(8000, trip2.estTotalPrice.valueInDollarInCents())
@@ -93,8 +96,20 @@ class TripTest {
     @Test
     fun shouldReturnTheSumOfTripEstimatedPriceWhenIsCreatedWithLocalitiesAndAccommodations() {
         val ibisHotel = Accommodation.create("Ibis Hotel", AccommodationType.HOTEL, Coordinates(0.0, 0.0), "address 1", Price(30000, Currency.USD), emptyList())
-        val heineken = Locality.create("Heineken Experience", LocalityType.TOURIST_SPOT, Coordinates(0.0, 0.0), "address 1", Price(3000, Currency.USD))
-        val museum = Locality.create("Anna Frank", LocalityType.MUSEUM, Coordinates(0.0, 0.0), "address 1", Price(1500, Currency.USD))
+        val heineken = Locality.create(
+            "Heineken Experience",
+            LocalityType.TOURIST_SPOT,
+            Coordinates(0.0, 0.0),
+            "address 1",
+            Price(3000, Currency.USD)
+        )
+        val museum = Locality.create(
+            "Anna Frank",
+            LocalityType.MUSEUM,
+            Coordinates(0.0, 0.0),
+            "address 1",
+            Price(1500, Currency.USD)
+        )
 
         val trip = Trip.create(
             "My trip",
@@ -102,9 +117,39 @@ class TripTest {
             "My description",
             LocalDate.parse("2019-01-01"),
             LocalDate.parse("2019-01-10"),
-            listOf(heineken, museum), listOf(ibisHotel), false, UUID.randomUUID()
+            listOf(heineken, museum), listOf(ibisHotel), false, 1, UUID.randomUUID()
         )
 
         assertEquals(34500, trip.estTotalPrice.valueInDollarInCents())
+    }
+
+    @Test
+    fun shouldReturnTheSumOfTripEstimatedPriceWhenIsCreatedWithMoreThenOneAdults(){
+        val ibisHotel = Accommodation.create("Ibis Hotel", AccommodationType.HOTEL, Coordinates(0.0, 0.0), "address 1", Price(30000, Currency.USD), emptyList())
+        val heineken = Locality.create(
+            "Heineken Experience",
+            LocalityType.TOURIST_SPOT,
+            Coordinates(0.0, 0.0),
+            "address 1",
+            Price(3000, Currency.USD)
+        )
+        val museum = Locality.create(
+            "Anna Frank",
+            LocalityType.MUSEUM,
+            Coordinates(0.0, 0.0),
+            "address 1",
+            Price(1500, Currency.USD)
+        )
+
+        val trip = Trip.create(
+            "My trip",
+            "Amsterdam",
+            "My description",
+            LocalDate.parse("2019-01-01"),
+            LocalDate.parse("2019-01-10"),
+            listOf(heineken, museum), listOf(ibisHotel), false, 2, UUID.randomUUID()
+        )
+
+        assertEquals(39000, trip.estTotalPrice.valueInDollarInCents())
     }
 }
