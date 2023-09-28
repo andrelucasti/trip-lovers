@@ -3,6 +3,10 @@ package io.andrelucas.business.trip
 import io.andrelucas.business.Coordinates
 import io.andrelucas.business.Currency
 import io.andrelucas.business.Price
+import io.andrelucas.business.accommodation.Accommodation
+import io.andrelucas.business.accommodation.AccommodationType
+import io.andrelucas.business.locality.Locality
+import io.andrelucas.business.locality.LocalityType
 import java.time.LocalDate
 import java.util.*
 import kotlin.test.Test

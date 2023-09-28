@@ -1,5 +1,7 @@
 package io.andrelucas.app.trip
 
+import io.andrelucas.app.accommodation.AccommodationRequest
+import io.andrelucas.app.locality.LocalityRequest
 import kotlinx.serialization.Serializable
 
 @Serializable

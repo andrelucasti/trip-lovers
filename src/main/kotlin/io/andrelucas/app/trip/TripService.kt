@@ -1,9 +1,17 @@
 package io.andrelucas.app.trip
 
+import io.andrelucas.app.accommodation.AccommodationRequest
+import io.andrelucas.app.accommodation.AccommodationResponse
+import io.andrelucas.app.locality.LocalityRequest
+import io.andrelucas.app.locality.LocalityResponse
 import io.andrelucas.business.Coordinates
 import io.andrelucas.business.trip.*
 import io.andrelucas.business.Currency
 import io.andrelucas.business.Price
+import io.andrelucas.business.accommodation.Accommodation
+import io.andrelucas.business.accommodation.AccommodationType
+import io.andrelucas.business.locality.Locality
+import io.andrelucas.business.locality.LocalityType
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*

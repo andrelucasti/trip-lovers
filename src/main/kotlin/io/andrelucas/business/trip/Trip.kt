@@ -2,6 +2,8 @@ package io.andrelucas.business.trip
 
 import io.andrelucas.business.Currency
 import io.andrelucas.business.Price
+import io.andrelucas.business.accommodation.Accommodation
+import io.andrelucas.business.locality.Locality
 import java.time.LocalDate
 import java.util.*
 

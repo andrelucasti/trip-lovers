@@ -1,4 +1,4 @@
-package io.andrelucas.app.trip
+package io.andrelucas.app.accommodation
 
 import kotlinx.serialization.Serializable
 

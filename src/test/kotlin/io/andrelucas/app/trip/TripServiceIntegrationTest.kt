@@ -1,5 +1,6 @@
 package io.andrelucas.app.trip
 
+import io.andrelucas.app.locality.LocalityRequest
 import io.andrelucas.business.trip.TripDao
 import io.andrelucas.business.trip.TripRepository
 import io.andrelucas.repository.trip.TripDaoInMemory

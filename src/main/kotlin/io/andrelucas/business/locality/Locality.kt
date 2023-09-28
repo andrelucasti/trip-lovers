@@ -1,4 +1,4 @@
-package io.andrelucas.business.trip
+package io.andrelucas.business.locality
 
 import io.andrelucas.business.Coordinates
 import io.andrelucas.business.Price
