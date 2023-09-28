@@ -19,5 +19,11 @@ fun Route.createTrip(tripService: TripService){
                 call.respond(HttpStatusCode.UnprocessableEntity, e.message ?: "Error creating trip")
             }
         }
+
+        get {
+            tripService.findAll().let { trips ->
+                call.respond(HttpStatusCode.OK, trips)
+            }
+        }
     }
 }

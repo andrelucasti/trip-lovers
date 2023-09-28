@@ -5,6 +5,7 @@ import io.andrelucas.business.trip.*
 import io.andrelucas.business.Currency
 import io.andrelucas.business.Price
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class TripService(private val tripRepository: TripRepository,
@@ -24,9 +25,24 @@ class TripService(private val tripRepository: TripRepository,
                 tripRepository.save(it)
             }
 
+    suspend fun findAll() = tripRepository.findAll()
+        .map { trip ->  TripResponse(
+            trip.id.toString(),
+            trip.title,
+            trip.destination,
+            trip.about,
+            trip.departure.format(DateTimeFormatter.ISO_LOCAL_DATE),
+            trip.returns.format(DateTimeFormatter.ISO_LOCAL_DATE),
+            trip.localities.map { locality-> LocalityResponse(locality.id.toString(), locality.name, locality.coordinates.latitude, locality.coordinates.longitude, locality.localityType.name, locality.estPrice.valueInDollarInCents()) },
+            trip.accommodations.map { accommodation ->  AccommodationResponse(accommodation.id.toString(), accommodation.name, accommodation.coordinates.latitude, accommodation.coordinates.longitude, accommodation.accommodationType.name, accommodation.estPrice.valueInDollarInCents(), accommodation.servicesOffering) },
+            trip.needsVisa,
+            trip.estTotalPrice.valueInDollarInCents(),
+            trip.adults,
+            trip.userId.toString())
+        }
+
     suspend fun findAllFutureTrips(currentDate: LocalDate, userId: UUID) =
         tripDao.findAllFutureTrips(currentDate, userId).sortedByDescending { it.departure }
-
 
     private fun createLocalities(localities: List<LocalityRequest>) =
         localities.map {
@@ -35,7 +51,7 @@ class TripService(private val tripRepository: TripRepository,
                 LocalityType.valueOf(it.type),
                 Coordinates(it.latitude, it.longitude),
                 "",
-                Price(0, Currency.USD)
+                Price(it.estimatePriceInCents, Currency.USD)
             )
         }
 
@@ -46,7 +62,7 @@ class TripService(private val tripRepository: TripRepository,
                 AccommodationType.valueOf(it.type),
                 Coordinates(it.latitude, it.longitude),
                 "",
-                Price(0, Currency.USD),
+                Price(it.estimatePriceInCents, Currency.USD),
                 it.servicesOffering
             )
         }
