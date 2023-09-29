@@ -30,6 +30,14 @@ class TripRouteIntegrationTest {
                     "returns": "2024-04-09",
                     "localities":[],
                     "accommodations":[],
+                    "vehicles":[
+                            {
+                                "company":"Uber",
+                                "type":"AIRPLANE",
+                                "estimatePriceInCents":30000,
+                                "servicesOffering":["wifi", "breakfast"]
+                            }
+                        ],
                     "needsVisa":false,
                     "adults": 1,
                     "userId":"c1ae16dd-f875-442f-a123-ec467ec0a52a"
@@ -38,9 +46,60 @@ class TripRouteIntegrationTest {
             )
         }.apply {
             assertEquals(HttpStatusCode.UnprocessableEntity, status)
+            assertEquals("Should not create a trip without localities and accommodations", bodyAsText())
         }
     }
 
+    @Test
+    fun shouldReturn422WhenIsTriedCreatingATripWithVehicle() = testApplication {
+        application {
+            appModule()
+            tripModule()
+        }
+
+        client.post("/trips") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                    "title":"My Trip",
+                    "about":"About my trip",
+                    "destination": "Roma",
+                    "departure": "2024-04-01",
+                    "returns": "2024-04-09",
+                    "localities":[{
+                        "name":"Ocenário Lisboa",
+                        "type": "TOURIST_SPOT",
+                        "latitude": 38.7651130934309,
+                        "longitude": -9.093708960777708,
+                        "estimatePriceInCents":"3000"
+                    }, {
+                        "name":"Ocenário Lisboa",
+                        "type": "RESTAURANT",
+                        "latitude": 38.71820198239517,
+                        "longitude": -9.142133168164838,
+                        "estimatePriceInCents":"1000"
+                    }],
+                    "accommodations":[{
+                        "name":"ibis hotel",
+                        "type": "HOTEL",
+                        "latitude": 41.84660739499335,
+                        "longitude": 12.592853311316297,
+                        "estimatePriceInCents":"8000",
+                        "servicesOffering":["wifi", "2 beds", "breakfast", "clean"]
+                    }],
+                    "vehicles":[],
+                    "needsVisa":false,
+                    "adults": 1,
+                    "userId":"c1ae16dd-f875-442f-a123-ec467ec0a52a"
+                }
+                """.trimIndent()
+            )
+        }.apply {
+            assertEquals(HttpStatusCode.UnprocessableEntity, status)
+            assertEquals("Should not create a trip without vehicle", bodyAsText())
+        }
+    }
 
     @Test
     fun shouldCreateATripWhenOnlyHaveAccommodations() = testApplication {
@@ -68,6 +127,14 @@ class TripRouteIntegrationTest {
                         "estimatePriceInCents":"8000",
                         "servicesOffering":["wifi", "2 beds", "breakfast", "clean"]
                     }],
+                    "vehicles":[
+                        {
+                            "company":"Uber",
+                            "type":"AIRPLANE",
+                            "estimatePriceInCents":30000,
+                            "servicesOffering":["wifi", "breakfast"]
+                        }
+                    ],
                     "needsVisa":false,
                     "adults": 2,
                     "userId":"c1ae16dd-f875-442f-a123-ec467ec0a52a"
@@ -95,7 +162,7 @@ class TripRouteIntegrationTest {
             assertEquals(2, tripResponse.adults)
 
             assertEquals(1, tripResponse.accommodations.size)
-            assertEquals(8000, tripResponse.estimateTotalPrice)
+            assertEquals(68000, tripResponse.estimateTotalPrice)
 
 
         }
@@ -131,6 +198,14 @@ class TripRouteIntegrationTest {
                 		"estimatePriceInCents":"1000"
                 	}]
                 	"accommodations":[],
+                    "vehicles":[
+                        {
+                            "company":"Uber",
+                            "type":"AIRPLANE",
+                            "estimatePriceInCents":30000,
+                            "servicesOffering":["wifi", "breakfast"]
+                        }
+                    ],
                 	"needsVisa":false,
                 	"adults": 2,
                 	"userId":"c1ae16dd-f875-442f-a123-ec467ec0a52a"
@@ -148,7 +223,6 @@ class TripRouteIntegrationTest {
             assertEquals(HttpStatusCode.OK, status)
             val tripResponse = Json.decodeFromString<List<TripResponse>>(bodyAsText())
                 .first()
-
             assertEquals("My Trip", tripResponse.title)
             assertEquals("About my trip", tripResponse.about)
             assertEquals("Lisbon", tripResponse.destination)
@@ -156,9 +230,10 @@ class TripRouteIntegrationTest {
             assertEquals("2024-04-09", tripResponse.returns)
             assertEquals(2, tripResponse.localities.size)
             assertEquals(2, tripResponse.adults)
-
             assertEquals(0, tripResponse.accommodations.size)
-            assertEquals(7000, tripResponse.estimateTotalPrice)
+
+            assertEquals(63500, tripResponse.estimateTotalPrice)
+            assertEquals(0, tripResponse.accommodations.size)
         }
     }
 }

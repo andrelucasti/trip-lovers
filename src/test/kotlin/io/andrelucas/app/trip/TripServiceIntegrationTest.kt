@@ -1,6 +1,7 @@
 package io.andrelucas.app.trip
 
 import io.andrelucas.app.locality.LocalityRequest
+import io.andrelucas.app.vehicle.VehicleRequest
 import io.andrelucas.business.trip.TripDao
 import io.andrelucas.business.trip.TripRepository
 import io.andrelucas.repository.trip.TripDaoInMemory
@@ -46,9 +47,18 @@ class TripServiceIntegrationTest {
                 ),
             ),
             accommodations = emptyList(),
+            vehicles = listOf(
+                VehicleRequest(
+                    type = "CAR",
+                    company = "Uber",
+                    servicesOffering = listOf("Air conditioning", "Wi-Fi", "Food"),
+                    estimatePriceInCents = 30000
+                )
+            ),
             needsVisa = false,
             adults = 1,
             userId = UUID.randomUUID().toString()
+
         )
         // When
         tripService.create(tripRequest = tripRequest)
@@ -63,6 +73,7 @@ class TripServiceIntegrationTest {
         assertEquals(tripRequest.returns, trip.returns.format(DateTimeFormatter.ISO_LOCAL_DATE))
         assertEquals(tripRequest.localities.size, trip.localities.size)
         assertEquals(tripRequest.accommodations.size, trip.accommodations.size)
+        assertEquals(tripRequest.vehicles.size, trip.vehicles.size)
         assertEquals(tripRequest.needsVisa, trip.needsVisa)
         assertEquals(UUID.fromString(tripRequest.userId), trip.userId)
         assertNotNull(trip.estTotalPrice)
@@ -72,6 +83,13 @@ class TripServiceIntegrationTest {
         assertEquals(tripRequest.localities[0].latitude, trip.localities[0].coordinates.latitude)
         assertEquals(tripRequest.localities[0].longitude, trip.localities[0].coordinates.longitude)
         assertEquals(tripRequest.localities[0].type, trip.localities[0].localityType.name)
+        assertEquals(tripRequest.localities[0].estimatePriceInCents, trip.localities[0].estPrice.valueInDollarInCents())
+
+        assertEquals(tripRequest.vehicles[0].type, trip.vehicles[0].vehicleType.name)
+        assertEquals(tripRequest.vehicles[0].company, trip.vehicles[0].company)
+        assertEquals(tripRequest.vehicles[0].servicesOffering, trip.vehicles[0].servicesOffering)
+        assertEquals(tripRequest.vehicles[0].estimatePriceInCents, trip.vehicles[0].estimatePrice.valueInDollarInCents())
+
         assertNotNull(trip.localities[0].address)
         assertNotNull(trip.localities[0].estPrice)
     }
@@ -96,6 +114,14 @@ class TripServiceIntegrationTest {
                 ),
             ),
             accommodations = emptyList(),
+            vehicles = listOf(
+                VehicleRequest(
+                    type = "AIRPLANE",
+                    company = "Uber",
+                    servicesOffering = listOf("Air conditioning", "Wi-Fi", "Food"),
+                    estimatePriceInCents = 30000
+                )
+            ),
             needsVisa = false,
             adults = 1,
             userId = userId
@@ -119,6 +145,14 @@ class TripServiceIntegrationTest {
                 ),
             ),
             accommodations = emptyList(),
+            vehicles = listOf(
+                VehicleRequest(
+                    type = "AIRPLANE",
+                    company = "Uber",
+                    servicesOffering = listOf("Air conditioning", "Wi-Fi", "Food"),
+                    estimatePriceInCents = 30000
+                )
+            ),
             needsVisa = false,
             adults = 1,
             userId = userId
@@ -141,6 +175,14 @@ class TripServiceIntegrationTest {
                 ),
             ),
             accommodations = emptyList(),
+            vehicles = listOf(
+                VehicleRequest(
+                    type = "AIRPLANE",
+                    company = "Uber",
+                    servicesOffering = listOf("Air conditioning", "Wi-Fi", "Food"),
+                    estimatePriceInCents = 30000
+                )
+            ),
             needsVisa = false,
             adults = 1,
             userId = userId
