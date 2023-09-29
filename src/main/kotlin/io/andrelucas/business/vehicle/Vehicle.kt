@@ -15,7 +15,7 @@ data class Vehicle(val id: UUID,
                    estimatePrice: Price,
                    adults: Int): Vehicle {
             
-            if (vehicleType.ticketless == TicketLess.YES) {
+            if (vehicleType.ticketLess == TicketLess.YES) {
                 return Vehicle(id = UUID.randomUUID(), vehicleType, company, servicesOffering, estimatePrice)
             }
             
@@ -25,7 +25,7 @@ data class Vehicle(val id: UUID,
     }
 }
 
-enum class VehicleType(val ticketless: TicketLess) {
+enum class VehicleType(val ticketLess: TicketLess) {
     CAR(TicketLess.YES),
     MOTORCYCLE(TicketLess.YES),
     BUS(TicketLess.NO),
