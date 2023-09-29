@@ -22,8 +22,6 @@ data class TripResponse(val tripId: String,
                         val adults: Int,
                         val userId: String)
 
-
-
 fun Trip.toResponse() = TripResponse(
     tripId = this.id.toString(),
     title = this.title,

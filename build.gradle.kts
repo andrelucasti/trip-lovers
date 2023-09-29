@@ -44,6 +44,9 @@ dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus:$prometeus_version")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("io.ktor:ktor-server-host-common-jvm:2.3.4")
+    implementation("io.ktor:ktor-server-status-pages-jvm:2.3.4")
+    implementation("io.ktor:ktor-server-freemarker-jvm:2.3.4")
 
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")

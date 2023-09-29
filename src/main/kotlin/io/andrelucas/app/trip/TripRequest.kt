@@ -24,8 +24,6 @@ data class TripRequest(val title: String,
                        val adults: Int,
                        val userId: String)
 
-
-
 fun TripRequest.toTrip() =
     Trip.create(
         title = this.title,

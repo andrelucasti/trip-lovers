@@ -11,10 +11,6 @@ data class LocalityResponse(val localityId: String,
                             val type: String,
                             val estimatePriceInCents: Int)
 
-
-
-
-
 fun Locality.toResponse() = LocalityResponse(
     localityId = this.id.toString(),
     name = this.name,

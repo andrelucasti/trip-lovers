@@ -12,7 +12,6 @@ data class VehicleRequest(val company: String,
                           val estimatePriceInCents: Int,
                           val servicesOffering: List<String>)
 
-
 fun VehicleRequest.toVehicle(adults: Int) = Vehicle.create(
     company = this.company,
     vehicleType = VehicleType.valueOf(this.type),
