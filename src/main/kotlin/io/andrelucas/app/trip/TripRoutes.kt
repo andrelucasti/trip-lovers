@@ -18,7 +18,7 @@ fun Route.createTrip(tripService: TripService){
 }
 
 fun Route.allTrips(tripService: TripService){
-    route("/trips"){
+    route("/trips/lasts"){
         get {
             tripService.findAll().let { trips ->
                 call.respond(HttpStatusCode.OK, trips)
