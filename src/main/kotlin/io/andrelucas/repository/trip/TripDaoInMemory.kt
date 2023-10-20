@@ -10,4 +10,8 @@ class TripDaoInMemory(private val tripRepository: TripRepository) : TripDao {
     override suspend fun findAllFutureTrips(currentDate: LocalDate, userId: UUID): List<Trip> {
         return tripRepository.findAll().filter { it.userId == userId && it.departure.isAfter(currentDate) }
     }
+
+    override suspend fun findTripsByDestination(destination: String): List<Trip> {
+        return tripRepository.findAll().filter { it.destination == destination }
+    }
 }

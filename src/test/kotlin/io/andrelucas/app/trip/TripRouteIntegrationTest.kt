@@ -236,4 +236,268 @@ class TripRouteIntegrationTest {
             assertEquals(0, tripResponse.accommodations.size)
         }
     }
+
+    @Test
+    fun shouldReturnTheLastsTrips() = testApplication{
+        application {
+            appModule()
+            tripModule()
+        }
+
+        client.post("/trips"){
+            contentType(ContentType.Application.Json)
+            setBody("""{
+                        "title":"My Trip of the year",
+                        "about":"About my trip of the year",
+                        "destination": "Lisbon",
+                        "departure": "2022-04-01",
+                        "returns": "2022-04-09",
+                        "localities":
+                        [
+                            {
+                                "name":"Ocenário Lisboa",
+                                "type": "TOURIST_SPOT",
+                                "latitude": 38.7651130934309,
+                                "longitude": -9.093708960777708,
+                                "estimatePriceInCents":"3000"
+                            }, 
+                            {
+                                "name":"Chimaraum",
+                                "type": "RESTAURANT",
+                                "latitude": 38.71820198239517,
+                                "longitude": -9.142133168164838,
+                                "estimatePriceInCents":"2700"
+                            },
+                            {
+                                "name":"Bondinho Tour",
+                                "type": "TOUR",
+                                "latitude": 38.71820198239517,
+                                "longitude": -9.142133168164838,
+                                "estimatePriceInCents":"2000"
+                            }
+                        ],
+                        "accommodations":[
+                            {
+                                "name":"ibis hotel",
+                                "type": "HOTEL",
+                                "latitude": 41.84660739499335,
+                                "longitude": 12.592853311316297,
+                                "estimatePriceInCents":"8000",
+                                "servicesOffering":["wifi", "2 beds", "breakfast", "clean"]
+                            }
+                        ],
+                    "vehicles":[
+                        {
+                            "company":"Uber",
+                            "type":"AIRPLANE",
+                            "estimatePriceInCents":30000,
+                            "servicesOffering":["wifi", "breakfast"]
+                        }
+                    ],
+                    "needsVisa":false,
+                    "adults": 2,
+                    "userId":"c1ae16dd-f875-442f-a123-ec467ec0a52a"
+                }""")
+        }.apply {
+            assertEquals(HttpStatusCode.Created, status)
+        }
+
+        client.post("/trips"){
+            contentType(ContentType.Application.Json)
+            setBody("""{
+                        "title":"My Trip of the year",
+                        "about":"About my trip of the year",
+                        "destination": "Lisbon",
+                        "departure": "2022-04-01",
+                        "returns": "2022-04-09",
+                        "localities":
+                        [
+                            {
+                                "name":"Ocenário Lisboa",
+                                "type": "TOURIST_SPOT",
+                                "latitude": 38.7651130934309,
+                                "longitude": -9.093708960777708,
+                                "estimatePriceInCents":"3000"
+                            }, 
+                            {
+                                "name":"Chimaraum",
+                                "type": "RESTAURANT",
+                                "latitude": 38.71820198239517,
+                                "longitude": -9.142133168164838,
+                                "estimatePriceInCents":"2700"
+                            },
+                            {
+                                "name":"Bondinho Tour",
+                                "type": "TOUR",
+                                "latitude": 38.71820198239517,
+                                "longitude": -9.142133168164838,
+                                "estimatePriceInCents":"2000"
+                            }
+                        ],
+                        "accommodations":[
+                            {
+                                "name":"ibis hotel",
+                                "type": "HOTEL",
+                                "latitude": 41.84660739499335,
+                                "longitude": 12.592853311316297,
+                                "estimatePriceInCents":"8000",
+                                "servicesOffering":["wifi", "2 beds", "breakfast", "clean"]
+                            }
+                        ],
+                    "vehicles":[
+                        {
+                            "company":"Uber",
+                            "type":"AIRPLANE",
+                            "estimatePriceInCents":30000,
+                            "servicesOffering":["wifi", "breakfast"]
+                        }
+                    ],
+                    "needsVisa":false,
+                    "adults": 2,
+                    "userId":"c1ae16dd-f875-442f-a123-ec467ec0a52a"
+                }""")
+        }.apply {
+            assertEquals(HttpStatusCode.Created, status)
+        }
+
+        client.get("/trips/lasts") {
+            contentType(ContentType.Application.Json)
+        }.apply {
+            assertEquals(HttpStatusCode.OK, status)
+            val trips = Json.decodeFromString<List<TripResponse>>(bodyAsText())
+            assertEquals(2, trips.size)
+        }
+    }
+
+    @Test
+    fun shouldReturnTripsByDestination() = testApplication {
+        application {
+            appModule()
+            tripModule()
+        }
+
+        client.post("/trips"){
+            contentType(ContentType.Application.Json)
+            setBody("""{
+                        "title":"My Trip of the year",
+                        "about":"About my trip of the year",
+                        "destination": "Lisbon",
+                        "departure": "2022-04-01",
+                        "returns": "2022-04-09",
+                        "localities":
+                        [
+                            {
+                                "name":"Ocenário Lisboa",
+                                "type": "TOURIST_SPOT",
+                                "latitude": 38.7651130934309,
+                                "longitude": -9.093708960777708,
+                                "estimatePriceInCents":"3000"
+                            }, 
+                            {
+                                "name":"Chimaraum",
+                                "type": "RESTAURANT",
+                                "latitude": 38.71820198239517,
+                                "longitude": -9.142133168164838,
+                                "estimatePriceInCents":"2700"
+                            },
+                            {
+                                "name":"Bondinho Tour",
+                                "type": "TOUR",
+                                "latitude": 38.71820198239517,
+                                "longitude": -9.142133168164838,
+                                "estimatePriceInCents":"2000"
+                            }
+                        ],
+                        "accommodations":[
+                            {
+                                "name":"ibis hotel",
+                                "type": "HOTEL",
+                                "latitude": 41.84660739499335,
+                                "longitude": 12.592853311316297,
+                                "estimatePriceInCents":"8000",
+                                "servicesOffering":["wifi", "2 beds", "breakfast", "clean"]
+                            }
+                        ],
+                    "vehicles":[
+                        {
+                            "company":"Uber",
+                            "type":"AIRPLANE",
+                            "estimatePriceInCents":30000,
+                            "servicesOffering":["wifi", "breakfast"]
+                        }
+                    ],
+                    "needsVisa":false,
+                    "adults": 2,
+                    "userId":"c1ae16dd-f875-442f-a123-ec467ec0a52a"
+                }""")
+        }.apply {
+            assertEquals(HttpStatusCode.Created, status)
+        }
+
+        client.post("/trips"){
+            contentType(ContentType.Application.Json)
+            setBody("""{
+                        "title":"Romantic Trip",
+                        "about":"About my trip to italy",
+                        "destination": "Roma",
+                        "departure": "2022-04-01",
+                        "returns": "2022-04-09",
+                        "localities":
+                        [
+                            {
+                                "name":"Torre de Pisa",
+                                "type": "TOURIST_SPOT",
+                                "latitude": 38.7651130934309,
+                                "longitude": -9.093708960777708,
+                                "estimatePriceInCents":"3000"
+                            }, 
+                            {
+                                "name":"Chimaraum",
+                                "type": "RESTAURANT",
+                                "latitude": 38.71820198239517,
+                                "longitude": -9.142133168164838,
+                                "estimatePriceInCents":"2700"
+                            },
+                            {
+                                "name":"Bondinho Tour",
+                                "type": "TOUR",
+                                "latitude": 38.71820198239517,
+                                "longitude": -9.142133168164838,
+                                "estimatePriceInCents":"2000"
+                            }
+                        ],
+                        "accommodations":[
+                            {
+                                "name":"ibis hotel",
+                                "type": "HOTEL",
+                                "latitude": 41.84660739499335,
+                                "longitude": 12.592853311316297,
+                                "estimatePriceInCents":"8000",
+                                "servicesOffering":["wifi", "2 beds", "breakfast", "clean"]
+                            }
+                        ],
+                    "vehicles":[
+                        {
+                            "company":"Uber",
+                            "type":"AIRPLANE",
+                            "estimatePriceInCents":30000,
+                            "servicesOffering":["wifi", "breakfast"]
+                        }
+                    ],
+                    "needsVisa":false,
+                    "adults": 2,
+                    "userId":"c1ae16dd-f875-442f-a123-ec467ec0a52a"
+                }""")
+        }.apply {
+            assertEquals(HttpStatusCode.Created, status)
+        }
+
+        client.get("/trips?destination=Lisbon"){
+            contentType(ContentType.Application.Json)
+        }.apply {
+            assertEquals(HttpStatusCode.OK, status)
+            val trips = Json.decodeFromString<List<TripResponse>>(bodyAsText())
+            assertEquals(1, trips.size)
+        }
+    }
 }

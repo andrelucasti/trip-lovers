@@ -26,3 +26,16 @@ fun Route.allTrips(tripService: TripService){
         }
     }
 }
+
+
+fun Route.tripsByDestination(tripService: TripService){
+    route("/trips"){
+        get {
+            val destination = call.parameters["destination"]?: throw IllegalArgumentException("Destination is required")
+
+            tripService.findByDestination(destination).let { trips ->
+                call.respond(HttpStatusCode.OK, trips)
+            }
+        }
+    }
+}

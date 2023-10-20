@@ -5,4 +5,5 @@ import java.util.*
 
 interface TripDao {
     suspend fun findAllFutureTrips(currentDate: LocalDate, userId: UUID): List<Trip>
+    suspend fun findTripsByDestination(destination: String): List<Trip>
 }

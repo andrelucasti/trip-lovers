@@ -3,6 +3,7 @@ package io.andrelucas.configuration.trip
 import io.andrelucas.app.trip.TripService
 import io.andrelucas.app.trip.allTrips
 import io.andrelucas.app.trip.createTrip
+import io.andrelucas.app.trip.tripsByDestination
 import io.andrelucas.business.trip.TripRepository
 import io.andrelucas.repository.trip.TripDaoInMemory
 import io.andrelucas.repository.trip.TripInMemoryRepository
@@ -30,5 +31,6 @@ fun Application.tripModule() {
         val tripRepository: TripRepository = TripInMemoryRepository()
         createTrip(TripService(tripRepository, TripDaoInMemory(tripRepository)))
         allTrips(TripService(tripRepository, TripDaoInMemory(tripRepository)))
+        tripsByDestination(TripService(tripRepository, TripDaoInMemory(tripRepository)))
     }
 }

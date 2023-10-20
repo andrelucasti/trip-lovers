@@ -17,4 +17,8 @@ class TripService(private val tripRepository: TripRepository,
 
     suspend fun findAllFutureTrips(currentDate: LocalDate, userId: UUID) =
         tripDao.findAllFutureTrips(currentDate, userId).sortedByDescending { it.departure }
+
+    suspend fun findByDestination(destination: String): List<TripResponse> {
+        return tripDao.findTripsByDestination(destination).map { trip -> trip.toResponse() }
+    }
 }
