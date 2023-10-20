@@ -27,7 +27,7 @@ data class Locality(
 }
 
 enum class LocalityType {
-    RESTAURANT, TOURIST_SPOT, SNACK_BAR, CLUB, BAR, MUSEUM, OTHER
+    RESTAURANT, TOURIST_SPOT, SNACK_BAR, CLUB, BAR, MUSEUM, TOUR, OTHER
 }
 
 
