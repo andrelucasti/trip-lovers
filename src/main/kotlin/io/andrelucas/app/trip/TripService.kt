@@ -5,8 +5,10 @@ import io.andrelucas.business.trip.TripRepository
 import java.time.LocalDate
 import java.util.*
 
-class TripService(private val tripRepository: TripRepository,
-                  private val tripDao: TripDao) {
+class TripService(
+    private val tripRepository: TripRepository,
+    private val tripDao: TripDao
+) {
     suspend fun create(tripRequest: TripRequest) =
         tripRequest.toTrip()
             .let { tripRepository.save(it) }

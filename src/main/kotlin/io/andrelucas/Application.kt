@@ -3,6 +3,7 @@ package io.andrelucas
 import freemarker.cache.ClassTemplateLoader
 import io.andrelucas.configuration.app.appModule
 import io.andrelucas.configuration.trip.tripModule
+import io.andrelucas.configuration.tripplanning.tripPlanningModule
 import io.andrelucas.configuration.user.userModule
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -20,5 +21,6 @@ fun Application.module() {
     }
     appModule()
     tripModule()
+    tripPlanningModule()
     userModule()
 }
